@@ -4,11 +4,13 @@ A simple manual for ICPC2024
 # 目录Contents
 ### 前言
 ### [算法思想介绍](Algorithm.md)
+### [常见问题介绍](Problems.md)
 ### [数据结构介绍](Data_Structure.md)
 ### 数学推论
 ### 重要算法模板
 ### STL常用功能介绍
 ### Linux维护参考
+### [有关英语词汇表](English_Words.md)
 
 Made by Solomark AU
 
