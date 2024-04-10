@@ -190,7 +190,7 @@ int main(void)
 
 `v.erase(p) `：删除迭代器 p 所指的元素，返回指向被删除元素之后元素的迭代器。
 
-`v.erase(b, e) `：删除迭代器 b, e 之间的元素，返回指向最后一个被删除元素之后元素的迭代器。
+`v.erase(b,e) `：删除迭代器 b, e 之间的元素，返回指向最后一个被删除元素之后元素的迭代器。
 ```cpp
 #include <iostream>
 #include <string>
