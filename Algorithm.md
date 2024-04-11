@@ -29,14 +29,14 @@
   - $k-$关键字的比较  
     下面用 $a_i$ 表示元素 $a$ 的第 $i$ 关键字  
     假如元素有 $k$ 个关键字,对于两个元素 $a$ 和 $b$,默认的比较方法是：  
-    比较两个元素的第 $1$ 关键字 $a_1$ 和 $b_1$,如果 $a_1 < b_1$ 则 $a < b$,如果 $a_1 > b_1$ 则 $a > b$,如果 $a_1 = b_1$ 则进行下一步;
-    比较两个元素的第 $2$ 关键字 $a_2$ 和 $b_2$,如果 $a_2 < b_2$ 则 $a < b$,如果 $a_2 > b_2$ 则 $a > b$,如果 $a_2 = b_2$ 则进行下一步;
+    比较两个元素的第 $1$ 关键字 $a_1$ 和 $b_1$,如果 $a_1 < b_1$ 则 $a < b$,如果 $a_1 > b_1$ 则 $a > b$,如果 $a_1 = b_1$ 则进行下一步;  
+    比较两个元素的第 $2$ 关键字 $a_2$ 和 $b_2$,如果 $a_2 < b_2$ 则 $a < b$,如果 $a_2 > b_2$ 则 $a > b$,如果 $a_2 = b_2$ 则进行下一步;  
     ……
-    比较两个元素的第 $k$ 关键字 $a_k$ 和 $b_k$,如果 $a_k < b_k$ 则 $a < b$,如果 $a_k > b_k$ 则 $a > b$,如果 $a_k = b_k$ 则 $a = b$。
+    比较两个元素的第 $k$ 关键字 $a_k$ 和 $b_k$,如果 $a_k < b_k$ 则 $a < b$,如果 $a_k > b_k$ 则 $a > b$,如果 $a_k = b_k$ 则 $a = b$。  
   - 稳定性  
     如果对内层关键字的排序是稳定的,则基数排序是稳定的。
   - 时间复杂度  
-    通常而言,基数排序比基于比较的排序算法(比如快速排序)要快。但由于需要额外的内存空间,因此当内存空间稀缺时,原地置换算法(比如快速排序)或许是个更好的选择。
+    通常而言,基数排序比基于比较的排序算法(比如快速排序)要快。但由于需要额外的内存空间,因此当内存空间稀缺时,原地置换算法(比如快速排序)或许是个更好的选择。  
     一般来说,如果每个关键字的值域都不大,就可以使用 计数排序 作为内层排序,此时的复杂度为 $O(kn+\sum\limits_{i=1}^k w_i)$,其中 $w_i$ 为第 $i$ 关键字的值域大小。如果关键字值域很大,就可以直接使用基于比较的 $O(nk\log n)$ 排序而无需使用基数排序了。
 
   - 空间复杂度  
@@ -106,14 +106,14 @@
       \textbf{for } state \\\\
       \qquad sum[state] \gets f[state] \\\\
       \textbf{for } i \gets 0 \textbf{ to } D \\\\
-      \qquad \textbf{for } state' \textbf{ in } \text{lexicographical order} \\\\
+      \qquad \textbf{for } state' \textbf{ in } \textit{lexicographical order} \\\\
       \qquad \qquad sum[state] \gets sum[state] + sum[state']
       \end{array}$$
    - 树上前缀和  
-    设 $\text{sum}_i$ 表示结点 $i$ 到根节点的权值总和。
+    设 $\textit{sum}_i$ 表示结点 $i$ 到根节点的权值总和。
     然后：  
-      - 若是点权,$x,y$ 路径上的和为 $\text{sum}_x + \text{sum}_y - \text{sum}_\text{lca} - \text{sum}_{\text{fa}_\text{lca}}$。  
-      - 若是边权,$x,y$ 路径上的和为 $\text{sum}_x + \text{sum}_y - 2\cdot\text{sum}_{lca}$。
+      - 若是点权,$x,y$ 路径上的和为 $\textit{sum}_x + \textit{sum}_y - \textit{sum}_\textit{lca} - \textit{sum}_{\textit{fa}_\textit{lca}}$。  
+      - 若是边权,$x,y$ 路径上的和为 $\textit{sum}_x + \textit{sum}_y - 2\cdot\textit{sum}_{lca}$。
 
 ### 差分
   - 概念：与前缀和相对的操作  
@@ -131,9 +131,9 @@
       $$
       \begin{aligned}
       &d_s\leftarrow d_s+1\\\\
-      &d_{lca}\leftarrow d_{\text{lca}}-1\\\\
+      &d_{lca}\leftarrow d_{\textit{lca}}-1\\\\
       &d_t\leftarrow d_t+1\\\\
-      &d_{f(\text{lca})}\leftarrow d_{f(\text{lca})}-1\\\\
+      &d_{f(\textit{lca})}\leftarrow d_{f(\textit{lca})}-1\\\\
       \end{aligned}$$
       其中 $f(x)$ 表示 $x$ 的父亲节点,$d_i$ 为点权 $a_i$ 的差分数组。可以发现实际上点差分的操作和上文一维数组的差分操作是类似的。
     - 边差分  
@@ -142,7 +142,7 @@
       \begin{aligned}
       &d_s\leftarrow d_s+1\\\\
       &d_t\leftarrow d_t+1\\\\
-      &d_{\text{lca}}\leftarrow d_{\text{lca}}-2\\\\
+      &d_{\textit{lca}}\leftarrow d_{\textit{lca}}-2\\\\
       \end{aligned}
       $$
       由于在边上直接进行差分比较困难,所以将本来应当累加到红色边上的值向下移动到附近的点里,那么操作起来也就方便了。对于公式,有了点差分的理解基础后也不难推导,同样是对两段区间进行差分。
