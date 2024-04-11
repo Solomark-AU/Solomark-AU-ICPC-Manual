@@ -355,3 +355,283 @@ row : 3
 col : 3
 ```
 函数 `v.resize(n)`  可以用来告知容器分配至少能分配 n 个元素的内存空间。并不改变容器中元素的数量，仅影响 vector 预先分配多大的内存空间
+
+# 二、string
+### <1> 头文件
+##### C++的string标准库
+string是C++标准库的重要部分，主要用于字符串处理。使用string库需要在同文件中包括该库 `#include<string>`
+### <2> 初始化
+使用等号的初始化叫做拷贝初始化，不使用等号的初始化叫直接初始化。
+```cpp
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+    string s;               //  默认初始化，一个空白的字符串
+    string s1("ssss");      // s1是字面值"ssss"的副本
+    string s2(s1);          // s2是s1的副本
+    string s3 = s2;         // s3是s2的副本
+    string s4(10, '4');     // s4初始化
+    string s5 = "Andre";    // 拷贝初始化
+    string s6 = string(10, 'c');    // 可拷贝初始化，生成一个初始化好的对象，拷贝给s6
+
+    char cs[] = "12345";
+    string s7(cs, 3);       // 复制字符串cs的前三个字符到s当中
+
+    string s8 = "abcde";
+    string s9(s8, 2);
+
+    string s10 = "asdsfasdgf";
+    string s11(s10, 3, 4);  // s4是s3从下标s开始4个字符的拷贝，超出s10.size出现未定义
+    return 0;
+}
+```
+### <3>string类型的读入
+```cpp
+string s;
+cin >> s;   //不能读入空格，以空格，制表符，回车符作为结束标志
+getline(cin, s); //可以读入空格和制表符，以回车符作为结束的标志
+```
+### <4>string类型的长度
+```cpp
+string s = "Hello, world!"
+int len = s.size();
+int len = s.length();   //这两种方式是等价的
+```
+!!注意他们的类型都是 注：std::string 的成员函数 length() 的返回值类型为 unsigned 类型，因此当 s.length() < t.length() 时，二者相减会得到一个很大的数产生运行时错误，所以相减之前需要先将二者强制类型转换为 int 类型。
+### <5> 字符串末尾添加字符
+可以用+号和`append()`函数在函数的末尾添加字符。
+```cpp
+string s;
+s += 'a';
+s.append('a');
+```
+### <6>寻找某字符（串）第一次出现的位置
+##### 来自OIwiki的介绍
+`find(str,pos)` 函数可以用来查找字符串中一个字符/字符串在 pos（含）之后第一次出现的位置（若不传参给 pos 则默认为 0）。如果没有出现，则返回 string::npos（被定义为 -1，但类型仍为 size_t/unsigned long）。
+
+示例：
+```cpp
+string s = "OI Wiki", t = "OI", u = "i";
+int pos = 5;
+printf("字符 I 在 s 的 %lu 位置第一次出现\n", s.find('I'));
+printf("字符 a 在 s 的 %lu 位置第一次出现\n", s.find('a'));
+printf("字符 a 在 s 的 %d 位置第一次出现\n", s.find('a'));
+printf("字符串 t 在 s 的 %lu 位置第一次出现\n", s.find(t));
+printf("在 s 中自 pos 位置起字符串 u 第一次出现在 %lu 位置", s.find(u, pos));
+```
+输出：
+```cpp
+字符 I 在 s 的 1 位置第一次出现
+字符 a 在 s 的 18446744073709551615 位置第一次出现 // 即为 size_t(-1)，具体数值与平台有关。
+字符 a 在 s 的 -1 位置第一次出现 // 强制转换为 int 类型则正常输出 -1
+字符串 t 在 s 的 0 位置第一次出现
+在 s 中自 pos 位置起字符串 u 第一次出现在 6 位置
+```
+##### 来自csdn的介绍
+```cpp
+1. size_t find (constchar* s, size_t pos = 0) const;
+
+  //在当前字符串的pos索引位置开始，查找子串s，返回找到的位置索引，
+
+    -1表示查找不到子串
+
+2. size_t find (charc, size_t pos = 0) const;
+
+  //在当前字符串的pos索引位置开始，查找字符c，返回找到的位置索引，
+
+    -1表示查找不到字符
+
+3. size_t rfind (constchar* s, size_t pos = npos) const;
+
+  //在当前字符串的pos索引位置开始，反向查找子串s，返回找到的位置索引，
+
+    -1表示查找不到子串
+
+4. size_t rfind (charc, size_t pos = npos) const;
+
+  //在当前字符串的pos索引位置开始，反向查找字符c，返回找到的位置索引，-1表示查找不到字符
+
+5. size_tfind_first_of (const char* s, size_t pos = 0) const;
+
+  //在当前字符串的pos索引位置开始，查找子串s的字符，返回找到的位置索引，-1表示查找不到字符
+
+6. size_tfind_first_not_of (const char* s, size_t pos = 0) const;
+
+  //在当前字符串的pos索引位置开始，查找第一个不位于子串s的字符，返回找到的位置索引，-1表示查找不到字符
+
+7. size_t find_last_of(const char* s, size_t pos = npos) const;
+
+  //在当前字符串的pos索引位置开始，查找最后一个位于子串s的字符，返回找到的位置索引，-1表示查找不到字符
+
+8. size_tfind_last_not_of (const char* s, size_t pos = npos) const;
+
+ //在当前字符串的pos索引位置开始，查找最后一个不位于子串s的字符，返回找到的位置索引，-1表示查找不到子串
+ ```
+```cpp
+void test8()
+{
+    string s("dog bird chicken bird cat");
+
+    //字符串查找-----找到后返回首字母在字符串中的下标
+
+    // 1. 查找一个字符串
+    cout << s.find("chicken") << endl;        // 结果是：9
+
+    // 2. 从下标为6开始找字符'i'，返回找到的第一个i的下标
+    cout << s.find('i',6) << endl;            // 结果是：11
+
+    // 3. 从字符串的末尾开始查找字符串，返回的还是首字母在字符串中的下标
+    cout << s.rfind("chicken") << endl;       // 结果是：9
+
+    // 4. 从字符串的末尾开始查找字符
+    cout << s.rfind('i') << endl;             // 结果是：18-------因为是从末尾开始查找，所以返回第一次找到的字符
+
+    // 5. 在该字符串中查找第一个属于字符串s的字符
+    cout << s.find_first_of("13br98") << endl;  // 结果是：4---b
+
+    // 6. 在该字符串中查找第一个不属于字符串s的字符------先匹配dog，然后bird匹配不到，所以打印4
+    cout << s.find_first_not_of("hello dog 2006") << endl; // 结果是：4
+    cout << s.find_first_not_of("dog bird 2006") << endl;  // 结果是：9
+
+    // 7. 在该字符串最后中查找第一个属于字符串s的字符
+    cout << s.find_last_of("13r98") << endl;               // 结果是：19
+
+    // 8. 在该字符串最后中查找第一个不属于字符串s的字符------先匹配t--a---c，然后空格匹配不到，所以打印21
+    cout << s.find_last_not_of("teac") << endl;            // 结果是：21
+
+}
+```
+
+### <7> 获取子字符串substr()
+很有用 特别是求子串的时候
+```cpp
+#include<iostream> 
+#include<string>
+using namespace std;
+
+int main () {
+    string a = "ac";
+    a += "w";//支持比较操作符>,>=,<,<=,==,!=
+    cout << a << endl; //输出子串a :acw
+
+    a += "ing";  
+    cout << a << endl;
+    //以字符串数组理解
+    cout << a.substr(0, 3) << endl; //当第一个数是0 则后一位数:输出从头开始的长度为3的子串
+    cout << a.substr(0, 3) << endl; //当第一个数是1 则输出下标为1 到下标为3的子串  
+    cout << a.substr(0, 9) << endl;//如果超出长度范围 则输出原子串
+    cout << a.substr(1) << endl; //从下标为1开始输出
+    cout << a.substr(0) << endl; //原子串
+    printf("%s\n", a.c_str());//如果用printf输出  
+
+    return 0;
+}  
+
+//输出
+/*
+acw
+acwing
+acw
+acw
+acwing
+cwing
+acwing
+acwing
+*/
+```
+### <8>  string的遍历：借助迭代器 或者 下标法
+```cpp
+void test6()
+{
+    string s1("abcdef"); // 调用一次构造函数
+
+    // 方法一： 下标法
+
+    for( int i = 0; i < s1.size() ; i++ )
+    {
+        cout<<s1[i];
+    }
+    cout<<endl;
+
+    // 方法二：正向迭代器
+
+    string::iterator iter = s1.begin();
+    for( ; iter < s1.end() ; iter++)
+    {
+        cout<<*iter;
+    }
+    cout<<endl;
+
+    // 方法三：反向迭代器
+    string::reverse_iterator riter = s1.rbegin();
+    for( ; riter < s1.rend() ; riter++)
+    {
+        cout<<*riter;
+    }
+    cout<<endl;
+}
+```
+### <9>插入/删除字符（串）& 替换字符（串）
+##### 1、插入/删除字符（串
+`insert(index,count,ch)` 和` insert(index,str) `是比较常见的插入函数。它们分别表示在 index 处连续插入 count 次字符串 ch 和插入字符串 str。
+
+`erase(index,count)` 函数将字符串 index 位置开始（含）的 count 个字符删除（若不传参给 count 则表示删去 index 位置及以后的所有字符）。
+
+示例：
+```cpp
+string s = "OI Wiki", t = " Wiki";
+char u = '!';
+s.erase(2);
+printf("从字符串 s 的第三位开始删去所有字符后得到的字符串是 %s\n", s.c_str());
+s.insert(2, t);
+printf("在字符串 s 的第三位处插入字符串 t 后得到的字符串是 %s\n", s.c_str());
+s.insert(7, 3, u);
+printf("在字符串 s 的第八位处连续插入 3 次字符串 u 后得到的字符串是 %s",
+       s.c_str());
+```
+输出：
+```cpp
+从字符串 s 的第三位开始删去所有字符后得到的字符串是 OI
+在字符串 s 的第三位处插入字符串 t 后得到的字符串是 OI Wiki
+在字符串 s 的第八位处连续插入 3 次字符串 u 后得到的字符串是 OI Wiki!!!
+```
+##### 2、替换字符（串）
+`replace(pos,count,str) `和 `replace(first,last,str) `是比较常见的替换函数。它们分别表示将从 pos 位置开始 count 个字符的子串替换为 str 以及将以 first 开始（含）、last 结束（不含）的子串替换为 str，其中 first 和 last 均为迭代器。
+
+示例：
+```cpp
+string s = "OI Wiki";
+s.replace(2, 5, "");
+printf("将字符串 s 的第 3~7 位替换为空串后得到的字符串是 %s\n", s.c_str());
+s.replace(s.begin(), s.begin() + 2, "NOI");
+printf("将字符串 s 的前两位替换为 NOI 后得到的字符串是 %s", s.c_str());
+```
+输出：
+```
+将字符串 s 的第 3~7 位替换为空串后得到的字符串是 OI
+将字符串 s 的前两位替换为 NOI 后得到的字符串是 NOI
+```
+### <10>string的排序：sort(s.begin(),s.end())
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+void test9()
+{
+    string s = "cdefba";
+    sort(s.begin(),s.end());
+    cout<<"s:"<<s<<endl;     // 结果：abcdef
+}
+```
+### <11> empty(), clear()
+`empty()`可以用来检查字符串是否为空，`clear()`用来清空字符串。
+```cpp
+string s1 = "012345";
+if(!s1.empty()){
+    cout << s1.length << endl;
+    s1.clear();
+}
+```
