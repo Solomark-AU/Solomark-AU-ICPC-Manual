@@ -106,6 +106,8 @@ public:
 
     matrix operator^(long long int x) const
     {
+        if (length != width)
+            throw;
         matrix result(length, width), base(length, width);
         for (int i = 0; i < length; i++)
             result.data[i][i] = 1;
